@@ -1,0 +1,28 @@
+import qualified Data.Map as Map
+import Data.Char (toUpper)
+
+data Calificacion = Excelente | Notable | Bueno | Suficiente | Insuficiente deriving (Show)
+
+calificar :: Int -> Calificacion
+calificar nota
+    | nota >= 95 = Excelente
+    | nota >= 85 = Notable
+    | nota >= 75 = Bueno
+    | nota >= 70 = Suficiente
+    | otherwise  = Insuficiente
+
+-- Convertir a mayusculas
+toUpperString :: String -> String
+toUpperString = map toUpper
+
+-- Recibe un diccionario con asignaturas y notas, y devuelve otro diccionario con las asignaturas en mayúsculas
+-- y las calificaciones correspondientes a las notas aprobadas
+calificacionesAprobadas :: Map.Map String Int -> Map.Map String Calificacion
+calificacionesAprobadas notas = Map.fromList [(toUpperString asignatura, calificar nota) | (asignatura, nota) <- Map.toList notas]
+
+main :: IO ()
+main = do
+    let notas = Map.fromList [("Programacion WEB", 90), ("Redes de Computadoras", 65), ("Sistemas programables", 80)]
+        aprobadas = calificacionesAprobadas notas
+    putStrLn "Calificaciones aprobadas:"
+    print aprobadas
