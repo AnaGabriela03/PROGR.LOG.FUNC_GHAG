@@ -1,0 +1,23 @@
+import qualified Data.Map.Strict as Map
+import Data.Char (isAlpha, toLower)
+
+-- Elimina caracteres no alfabeticos y convierte a minisculas
+borrarPalabra :: String -> String
+borrarPalabra = map toLower . filter isAlpha
+
+-- Cuenta el tamaño/longitud de la palabra
+longitudesDePalabras :: String -> Map.Map String Int
+longitudesDePalabras frase =
+    let listaPalabras = words frase
+        palabrasLimpias = map borrarPalabra listaPalabras
+        paresDePalabras = map (\word -> (word, length word)) palabrasLimpias
+    in Map.fromList paresDePalabras
+
+fraseEjemplo :: String
+fraseEjemplo = "ANA @@@ GabRIEla ```** + GOMEZ HernaNDEZ *****___"
+
+resultado :: Map.Map String Int
+resultado = longitudesDePalabras fraseEjemplo
+
+main :: IO ()
+main = print resultado
