@@ -26,3 +26,4 @@ main = do
     -- IVA 21%
     let precioConIVA = precioCesta carrito calcularIVA 21
     putStrLn $ "Precio final con IVA: " ++ show precioConIVA
+
