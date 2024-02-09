@@ -1,0 +1,26 @@
+import qualified Data.Map as Map
+import Data.Char (toUpper)
+
+type Asignatura = String
+type Nota = Int
+type DiccionarioNotas = Map.Map Asignatura String
+
+clasificar :: Map.Map Asignatura Nota -> DiccionarioNotas
+clasificar = Map.mapKeys (map toUpper) . Map.map notaClasificada -- toUpper las vuelve mayusculas
+
+-- Representación de una "condicional", recordando que otherwise es opcion "si no se cumplen las anteriores"
+notaClasificada :: Nota -> String
+notaClasificada nota
+    | nota >= 95 = "Excelente"
+    | nota >= 85 = "Notable"
+    | nota >= 75 = "Bueno"
+    | nota >= 70 = "Suficiente"
+    | otherwise = "Desempenio insuficiente"
+
+notas :: Map.Map Asignatura Nota
+notas = Map.fromList [("Programacion logica funcional", 100), ("Sistemas programables", 80), ("Lenguajes de interfaz", 65)]
+
+main :: IO ()
+main = do
+    let notasClasificadas = clasificar notas
+    print notasClasificadas
