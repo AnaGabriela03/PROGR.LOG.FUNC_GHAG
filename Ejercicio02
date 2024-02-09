@@ -1,0 +1,14 @@
+funcionEnLista :: (a -> b) -> [a] -> [b]
+-- Caso base: si la lista es vacía, devuelve una lista vacía
+funcionEnLista _ [] = [] 
+funcionEnLista f (x:xs) = f x : funcionEnLista f xs 
+
+-- Toma un entero 'x' y devuelve el resultado de multiplicarlo por 2
+aplicar :: Int -> Int
+aplicar x = x * 2
+
+main :: IO ()
+main = do
+    let resultados = funcionEnLista aplicar [1, 2, 3, 4, 5] 
+    putStrLn "Resultados:"
+    mapM_ print resultados
