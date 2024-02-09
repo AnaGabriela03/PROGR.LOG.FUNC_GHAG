@@ -1,0 +1,24 @@
+import Text.Printf
+
+-- Lista de las respectivas funciones
+listaFunciones :: [(String, Double -> Double)]
+listaFunciones = [ ("SENO", sin), ("COSENO", cos), ("TANGENTE", tan), ("EXPONENCIAL", exp), ("LOGARITMO NEPERINO", log)]
+
+-- Se define una funcion que no recibe parametros
+calculadora :: IO ()
+calculadora = do
+    putStrLn "Ingrese el nombre de la función:"
+    funcionStr <- getLine -- Se lee y guarda
+    let maybeFuncion = lookup funcionStr listaFunciones
+    case maybeFuncion of
+        Nothing -> putStrLn "Valor invalido, debe ingresar el nombre de alguna función (SENO, COSENO, TANGENTE, EXPONENCIAL, LOGARITMO NEPERINO)"
+        Just funcion -> do
+            putStrLn "Ingrese el valor:"
+            valorStr <- getLine
+            let valor = read valorStr :: Double --Casting
+            putStrLn "RESULTADOS:"
+            putStrLn "Valor\tResultado"
+            mapM_ (\x -> printf "%.2f\t%.2f\n" x (funcion x)) [1..valor]
+
+main :: IO ()
+main = calculadora
