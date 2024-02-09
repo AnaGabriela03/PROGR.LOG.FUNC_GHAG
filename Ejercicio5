@@ -1,0 +1,29 @@
+import qualified Data.Map as Map
+import Data.Char (toUpper)
+
+-- Definición de un inmueble
+data Inmueble = Inmueble { año :: Int, metros :: Int, habitaciones :: Int, garaje :: Bool, zona :: Char } deriving (Show)
+
+-- Función para calcular el precio de un inmueble
+calcularPrecio :: Inmueble -> Float
+calcularPrecio inmueble = case zona inmueble of
+    'A' -> fromIntegral ((metros inmueble * 1000) + (habitaciones inmueble * 5000) + if garaje inmueble then 15000 else 0) * (1 - fromIntegral (2024 - año inmueble) / 100)
+    'B' -> fromIntegral ((metros inmueble * 1000) + (habitaciones inmueble * 5000) + if garaje inmueble then 15000 else 0) * (1 - fromIntegral (2024 - año inmueble) / 100) * 1.5
+
+-- Función de búsqueda de inmuebles por presupuesto
+buscarPorPresupuesto :: Float -> [Inmueble] -> [(Inmueble, Float)]
+buscarPorPresupuesto presupuesto = filter (\(inmueble, precio) -> precio <= presupuesto) . map (\inmueble -> (inmueble, calcularPrecio inmueble))
+
+inmuebles :: [Inmueble]
+inmuebles = [ Inmueble 2000 205 5 True 'A',
+              Inmueble 2003 50 2 True 'B',
+              Inmueble 1999 120 3 False 'A',
+              Inmueble 2023 50 3 True 'B',
+              Inmueble 2015 90 1 False 'A' ]
+
+main :: IO ()
+main = do
+    let presupuesto = 100000  -- Presupuesto dado
+        inmueblesConPrecio = buscarPorPresupuesto presupuesto inmuebles
+    putStrLn "Inmuebles encontrados dentro del presupuesto:"
+    mapM_ print inmueblesConPrecio
