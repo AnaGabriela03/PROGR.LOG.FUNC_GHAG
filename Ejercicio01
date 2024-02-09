@@ -1,0 +1,28 @@
+type Precio = Float
+type Porcentaje = Float
+type Producto = (String, Precio, Porcentaje)
+type Cesta = [Producto]
+
+-- DESCUENTO
+calcularDescuento :: Precio -> Porcentaje -> Precio
+calcularDescuento precio descuento = precio - (precio * descuento / 100)
+
+-- IVA
+calcularIVA :: Precio -> Porcentaje -> Precio
+calcularIVA precio iva = precio + (precio * iva / 100)
+
+-- TOTAL
+precioCesta :: Cesta -> (Precio -> Porcentaje -> Precio) -> Porcentaje -> Precio
+precioCesta cesta funcion porcentaje = sum [funcion precio porcentaje | (producto, precio, _) <- cesta]
+
+main :: IO ()
+main = do
+    let carrito = [("Coca", 50.0, 0), ("Pepsi", 40.0, 2), ("Fanta", 38.0, 5)]
+    
+    -- DESCUENTO DE 10%
+    let precioConDescuento = precioCesta carrito calcularDescuento 10
+    putStrLn $ "Precio final con descuento: " ++ show precioConDescuento
+
+    -- IVA 21%
+    let precioConIVA = precioCesta carrito calcularIVA 21
+    putStrLn $ "Precio final con IVA: " ++ show precioConIVA
