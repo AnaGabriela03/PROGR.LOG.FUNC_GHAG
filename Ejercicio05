@@ -1,0 +1,14 @@
+type Vector = [Double]
+calcularModulo :: Vector -> Double
+-- Eleva al cuadrado cada elemento del vector
+-- obtiene la suma de los elementos al cuadrado
+-- calcula la raíz cuadrada de la suma
+calcularModulo vector = sqrt (sum [x^2 | x <- vector]) 
+
+vector :: Vector
+vector = [5.0, 4.0, 2.0]
+modulo :: Double
+modulo = calcularModulo vector
+
+main :: IO ()
+main = print modulo
