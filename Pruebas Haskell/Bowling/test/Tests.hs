@@ -62,3 +62,4 @@ bowlingSuite = testGroup "Bowling tests"
 main :: IO ()
 main = defaultMain bowlingSuite
 
+
